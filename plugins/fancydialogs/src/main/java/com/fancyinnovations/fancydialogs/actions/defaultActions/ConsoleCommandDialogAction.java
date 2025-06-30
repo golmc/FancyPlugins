@@ -27,7 +27,7 @@ public class ConsoleCommandDialogAction implements DialogAction {
         String finalCommand = command;
 
         // Execute the command on the server console
-        Bukkit.getScheduler().runTask(FancyDialogsPlugin.get(), () -> {
+        Bukkit.getGlobalRegionScheduler().run(FancyDialogsPlugin.get(), (task) -> {
             try {
                 player.getServer().dispatchCommand(player.getServer().getConsoleSender(), finalCommand);
             } catch (Exception e) {

@@ -3,7 +3,6 @@ package com.fancyinnovations.fancydialogs.actions.defaultActions;
 import com.fancyinnovations.fancydialogs.FancyDialogsPlugin;
 import com.fancyinnovations.fancydialogs.api.Dialog;
 import com.fancyinnovations.fancydialogs.api.DialogAction;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.lushplugins.chatcolorhandler.ChatColorHandler;
 import org.lushplugins.chatcolorhandler.parsers.ParserTypes;
@@ -23,9 +22,7 @@ public class PlayerCommandDialogAction implements DialogAction {
 
         String command = ChatColorHandler.translate(data, player, ParserTypes.placeholder());
 
-        Bukkit.getScheduler().runTask(FancyDialogsPlugin.get(), () -> {
-            player.chat("/" + command);
-        });
+        player.getScheduler().run(FancyDialogsPlugin.get(), (task) -> player.performCommand(command), null);
     }
 
 }
