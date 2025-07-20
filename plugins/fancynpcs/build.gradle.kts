@@ -28,7 +28,9 @@ val supportedVersions =
         "1.21.3",
         "1.21.4",
         "1.21.5",
-        "1.21.6"
+        "1.21.6",
+        "1.21.7",
+        "1.21.8",
     )
 
 allprojects {
@@ -48,7 +50,7 @@ allprojects {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.7-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
 
     implementation(project(":plugins:fancynpcs:fn-api"))
     implementation(project(":plugins:fancynpcs:implementation_1_21_6"))
@@ -71,12 +73,13 @@ dependencies {
     implementation(project(":libraries:common"))
     implementation(project(":libraries:jdb"))
     implementation(project(":libraries:plugin-tests"))
+    implementation(project(":libraries:config"))
     compileOnly("org.lushplugins:ChatColorHandler:5.1.6")
     implementation("de.oliver.FancyAnalytics:java-sdk:0.0.3")
-    implementation("de.oliver.FancyAnalytics:mc-api:0.1.7")
+    implementation("de.oliver.FancyAnalytics:mc-api:0.1.8")
     implementation("de.oliver.FancyAnalytics:logger:0.0.6")
     implementation("org.incendo:cloud-core:2.1.0-SNAPSHOT")
-    implementation("org.incendo:cloud-paper:2.0.0-SNAPSHOT")
+    implementation("org.incendo:cloud-paper:2.0.0-beta.11")
     implementation("org.incendo:cloud-annotations:2.1.0-SNAPSHOT")
     annotationProcessor("org.incendo:cloud-annotations:2.1.0-SNAPSHOT")
     implementation("org.mineskin:java-client-jsoup:3.0.3-SNAPSHOT")
@@ -112,13 +115,13 @@ paper {
 
 tasks {
     runServer {
-        minecraftVersion("1.21.7")
+        minecraftVersion("1.21.8")
 
         downloadPlugins {
-            hangar("ViaVersion", "5.4.0")
-            hangar("ViaBackwards", "5.4.0")
-            hangar("PlaceholderAPI", "2.11.6")
-            modrinth("multiverse-core", "5.0.2")
+//            hangar("ViaVersion", "5.4.0")
+//            hangar("ViaBackwards", "5.4.0")
+//            hangar("PlaceholderAPI", "2.11.6")
+//            modrinth("multiverse-core", "5.0.2")
         }
     }
 

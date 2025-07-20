@@ -1,4 +1,4 @@
-package de.oliver.fancylib.featureFlags;
+package com.fancyinnovations.config.featureflags;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Use Config instead of this class.
+ */
+@Deprecated
 public class FeatureFlagConfig {
 
     private final Plugin plugin;

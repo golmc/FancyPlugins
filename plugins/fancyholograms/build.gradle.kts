@@ -31,6 +31,8 @@ val supportedVersions =
         "1.21.4",
         "1.21.5",
         "1.21.6",
+        "1.21.7",
+        "1.21.8",
     )
 
 allprojects {
@@ -54,7 +56,7 @@ allprojects {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.7-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
 
     implementation(project(":plugins:fancyholograms:fh-api"))
     implementation(project(":plugins:fancyholograms:implementation_1_20_4", configuration = "reobf"))
@@ -69,12 +71,15 @@ dependencies {
     implementation(project(":libraries:common"))
     implementation(project(":libraries:plugin-tests"))
     implementation(project(":libraries:jdb"))
+    implementation(project(":libraries:config"))
     implementation(project(":libraries:packets"))
     implementation(project(":libraries:packets:packets-api"))
     implementation("de.oliver.FancyAnalytics:java-sdk:0.0.3")
-    implementation("de.oliver.FancyAnalytics:mc-api:0.1.7")
+    implementation("de.oliver.FancyAnalytics:mc-api:0.1.8")
     implementation("de.oliver.FancyAnalytics:logger:0.0.6")
 
+    implementation("io.github.revxrsal:lamp.common:4.0.0-rc.12")
+    implementation("io.github.revxrsal:lamp.bukkit:4.0.0-rc.12")
     compileOnly(project(":plugins:fancynpcs:fn-api"))
     compileOnly("org.lushplugins:ChatColorHandler:5.1.6")
     compileOnly("com.viaversion:viaversion-api:5.2.1")
@@ -119,12 +124,12 @@ paper {
 
 tasks {
     runServer {
-        minecraftVersion("1.21.7")
+        minecraftVersion("1.21.8")
 
         downloadPlugins {
-            modrinth("fancynpcs", "2.5.0")
-            hangar("ViaVersion", "5.3.2")
-            hangar("ViaBackwards", "5.3.2")
+            modrinth("fancynpcs", "2.7.0")
+//            hangar("ViaVersion", "5.3.2")
+//            hangar("ViaBackwards", "5.3.2")
 //            modrinth("multiverse-core", "4.3.11")
             hangar("PlaceholderAPI", "2.11.6")
 //            modrinth("DecentHolograms", "2.8.12")

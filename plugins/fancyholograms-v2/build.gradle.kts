@@ -31,6 +31,8 @@ val supportedVersions =
         "1.21.4",
         "1.21.5",
         "1.21.6",
+        "1.21.7",
+        "1.21.8",
     )
 
 allprojects {
@@ -54,7 +56,7 @@ allprojects {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.7-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
 
     implementation(project(":plugins:fancyholograms-v2:api"))
     implementation(project(":plugins:fancyholograms-v2:implementation_1_20_4", configuration = "reobf"))
@@ -69,8 +71,9 @@ dependencies {
     implementation(project(":libraries:packets:packets-api"))
     implementation(project(":libraries:common"))
     implementation(project(":libraries:jdb"))
+    implementation(project(":libraries:config"))
     implementation("de.oliver.FancyAnalytics:java-sdk:0.0.3")
-    implementation("de.oliver.FancyAnalytics:mc-api:0.1.7")
+    implementation("de.oliver.FancyAnalytics:mc-api:0.1.8")
     implementation("de.oliver.FancyAnalytics:logger:0.0.6")
 
     compileOnly(project(":plugins:fancynpcs:fn-api"))
@@ -111,14 +114,14 @@ paper {
 
 tasks {
     runServer {
-        minecraftVersion("1.21.7")
+        minecraftVersion("1.21.8")
 
         downloadPlugins {
-            modrinth("fancynpcs", "2.5.2")
-            hangar("ViaVersion", "5.4.0")
-            hangar("ViaBackwards", "5.4.0")
-            modrinth("multiverse-core", "5.0.2")
-            hangar("PlaceholderAPI", "2.11.6")
+//            modrinth("fancynpcs", "2.5.2")
+//            hangar("ViaVersion", "5.4.0")
+//            hangar("ViaBackwards", "5.4.0")
+//            modrinth("multiverse-core", "5.0.2")
+//            hangar("PlaceholderAPI", "2.11.6")
 //            modrinth("DecentHolograms", "2.8.12")
         }
     }

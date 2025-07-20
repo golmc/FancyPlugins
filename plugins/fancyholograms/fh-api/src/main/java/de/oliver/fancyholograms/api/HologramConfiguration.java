@@ -1,15 +1,6 @@
 package de.oliver.fancyholograms.api;
 
-import org.jetbrains.annotations.NotNull;
-
 public interface HologramConfiguration {
-
-    /**
-     * Reloads the configuration.
-     *
-     * @param plugin The plugin instance.
-     */
-    void reload(@NotNull FancyHolograms plugin);
 
     /**
      * Returns whether version notifications are muted.
@@ -59,4 +50,32 @@ public interface HologramConfiguration {
      * @return The log level for the plugin.
      */
     String getLogLevel();
+
+    /**
+     * Returns the language used by the plugin.
+     *
+     * @return The language used by the plugin.
+     */
+    String getLanguage();
+
+    /**
+     * Returns whether holograms should be shown to bedrock players.
+     *
+     * @return {@code true} if holograms should be shown to bedrock players, {@code false} otherwise.
+     */
+    boolean isHologramsForBedrockPlayersEnabled();
+
+    /**
+     * Returns whether holograms should be shown to players with an old client version.
+     *
+     * @return {@code true} if holograms should be shown to players with an old client version, {@code false} otherwise.
+     */
+    boolean isHologramsForOldClientsEnabled();
+
+    /**
+     * Returns whether the plugin uses lamp commands.
+     *
+     * @return {@code true} if the plugin uses lamp commands, {@code false} otherwise.
+     */
+    boolean useLampCommands();
 }

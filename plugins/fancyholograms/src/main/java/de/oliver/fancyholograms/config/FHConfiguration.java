@@ -1,126 +1,201 @@
 package de.oliver.fancyholograms.config;
 
-import de.oliver.fancyholograms.api.FancyHolograms;
+import com.fancyinnovations.config.Config;
+import com.fancyinnovations.config.ConfigField;
 import de.oliver.fancyholograms.api.HologramConfiguration;
 import de.oliver.fancyholograms.main.FancyHologramsPlugin;
-import de.oliver.fancylib.ConfigHelper;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
-/**
- * The FancyHologramsConfig class is responsible for managing the configuration of the FancyHolograms plugin.
- * It handles loading and saving hologram data, as well as providing access to various configuration settings.
- */
 public final class FHConfiguration implements HologramConfiguration {
 
-    /**
-     * Indicates whether version notifications are muted.
-     */
-    private boolean versionNotifsMuted;
+    public static final String LOG_LEVEL_PATH = "settings.logging.level";
 
-    /**
-     * Indicates whether autosave is enabled.
-     */
-    private boolean autosaveEnabled;
+    public static final String MUTE_VERSION_NOTIFICATION_PATH = "settings.logging.version_notification";
+    public static final String ENABLE_AUTOSAVE_PATH = "settings.saving.autosave.enabled";
+    public static final String AUTOSAVE_INTERVAL_PATH = "settings.saving.autosave.interval";
 
-    /**
-     * The interval at which autosave is performed.
-     */
-    private int autosaveInterval;
+    public static final String SAVE_ON_CHANGED_PATH = "settings.saving.save_on_changed";
+    public static final String VISIBILITY_DISTANCE_PATH = "settings.visibility_distance";
 
-    /**
-     * Indicates whether the plugin should save holograms when they are changed.
-     */
-    private boolean saveOnChangedEnabled;
+    public static final String REGISTER_COMMANDS_PATH = "settings.register_commands";
 
-    /**
-     * The default visibility distance for holograms.
-     */
-    private int defaultVisibilityDistance;
+    public static final String LANGUAGE_PATH = "settings.language";
 
-    /**
-     * Indicates whether commands should be registered.
-     * <p>
-     * This is useful for users who want to use the plugin's API only.
-     */
-    private boolean registerCommands;
+    public static final String DISABLE_HOLOGRAMS_FOR_BEDROCK_PLAYERS_PATH = "experimental_features.disable_holograms_for_bedrock_players";
+    public static final String DISABLE_HOLOGRAMS_FOR_OLD_CLIENTS = "experimental_features.disable_holograms_for_old_clients";
+    public static final String USE_LAMP_COMMANDS = "experimental_features.use_lamp_commands";
 
-    /**
-     * The log level for the plugin.
-     */
-    private String logLevel;
+    private static final String CONFIG_FILE_PATH = "plugins/FancyHolograms/config.yml";
+    private Config config;
 
-    @Override
-    public void reload(@NotNull FancyHolograms plugin) {
-        FancyHologramsPlugin pluginImpl = (FancyHologramsPlugin) plugin;
-        pluginImpl.reloadConfig();
+    public void init() {
+        config = new Config(FancyHologramsPlugin.get().getFancyLogger(), CONFIG_FILE_PATH);
 
-        final var config = pluginImpl.getConfig();
+        config.addField(new ConfigField<>(
+                LOG_LEVEL_PATH,
+                "The log level for the plugin (DEBUG, INFO, WARN, ERROR).",
+                false,
+                "INFO",
+                false,
+                String.class
+        ));
 
-        versionNotifsMuted = (boolean) ConfigHelper.getOrDefault(config, "mute_version_notification", false);
-        config.setInlineComments("mute_version_notification", List.of("Whether version notifications are muted."));
+        config.addField(new ConfigField<>(
+                MUTE_VERSION_NOTIFICATION_PATH,
+                "Whether version notifications are muted.",
+                false,
+                false,
+                false,
+                Boolean.class
+        ));
 
-        autosaveEnabled = (boolean) ConfigHelper.getOrDefault(config, "enable_autosave", true);
-        config.setInlineComments("enable_autosave", List.of("Whether autosave is enabled."));
+        config.addField(new ConfigField<>(
+                ENABLE_AUTOSAVE_PATH,
+                "Whether autosave is enabled.",
+                false,
+                true,
+                false,
+                Boolean.class
+        ));
 
-        autosaveInterval = (int) ConfigHelper.getOrDefault(config, "autosave_interval", 15);
-        config.setInlineComments("autosave_interval", List.of("The interval at which autosave is performed in minutes."));
+        config.addField(new ConfigField<>(
+                AUTOSAVE_INTERVAL_PATH,
+                "The interval at which autosave is performed in minutes.",
+                false,
+                15,
+                false,
+                Integer.class
+        ));
 
-        saveOnChangedEnabled = (boolean) ConfigHelper.getOrDefault(config, "save_on_changed", true);
-        config.setInlineComments("save_on_changed", List.of("Whether the plugin should save holograms when they are changed."));
+        config.addField(new ConfigField<>(
+                SAVE_ON_CHANGED_PATH,
+                "Whether the plugin should save holograms when they are changed.",
+                false,
+                true,
+                false,
+                Boolean.class
+        ));
 
-        defaultVisibilityDistance = (int) ConfigHelper.getOrDefault(config, "visibility_distance", 20);
-        config.setInlineComments("visibility_distance", List.of("The default visibility distance for holograms."));
+        config.addField(new ConfigField<>(
+                VISIBILITY_DISTANCE_PATH,
+                "The default visibility distance for holograms.",
+                false,
+                20,
+                false,
+                Integer.class
+        ));
 
-        registerCommands = (boolean) ConfigHelper.getOrDefault(config, "register_commands", true);
-        config.setInlineComments("register_commands", List.of("Whether the plugin should register its commands."));
+        config.addField(new ConfigField<>(
+                REGISTER_COMMANDS_PATH,
+                "Whether the plugin should register its commands.",
+                false,
+                true,
+                false,
+                Boolean.class
+        ));
 
-        config.set("report_errors_to_sentry", null);
-        config.setInlineComments("report_errors_to_sentry", null);
+        config.addField(new ConfigField<>(
+                LANGUAGE_PATH,
+                "The language to use for the plugin.",
+                false,
+                "default",
+                false,
+                String.class
+        ));
 
-        config.setInlineComments("log_level", List.of("The log level for the plugin (DEBUG, INFO, WARN, ERROR)."));
-        logLevel = (String) ConfigHelper.getOrDefault(config, "log_level", "INFO");
+        /*
+            FEATURE FLAGS
+         */
 
-        if (pluginImpl.isEnabled()) {
-            plugin.getHologramThread().submit(pluginImpl::saveConfig);
-        } else {
-            // Can't dispatch task if plugin is disabled
-            pluginImpl.saveConfig();
-        }
+        config.addField(new ConfigField<>(
+                DISABLE_HOLOGRAMS_FOR_BEDROCK_PLAYERS_PATH,
+                "Do not show holograms to bedrock players,",
+                false,
+                false,
+                false,
+                Boolean.class
+        ));
+
+        config.addField(new ConfigField<>(
+                DISABLE_HOLOGRAMS_FOR_OLD_CLIENTS,
+                "Do not show holograms to clients with a version older than 1.19.4.",
+                false,
+                false,
+                false,
+                Boolean.class
+        ));
+
+        config.addField(new ConfigField<>(
+                USE_LAMP_COMMANDS,
+                "Use the new commands made with the Lamp framework.",
+                false,
+                false,
+                false,
+                Boolean.class
+        ));
+
+        config.reload();
+    }
+
+    public void reload() {
+        config.reload();
+    }
+
+    public Config getConfig() {
+        return config;
     }
 
     @Override
     public boolean areVersionNotificationsMuted() {
-        return versionNotifsMuted;
+        return config.get(MUTE_VERSION_NOTIFICATION_PATH);
     }
 
     @Override
     public boolean isAutosaveEnabled() {
-        return autosaveEnabled;
+        return config.get(ENABLE_AUTOSAVE_PATH);
     }
 
     @Override
     public int getAutosaveInterval() {
-        return autosaveInterval;
+        return config.get(AUTOSAVE_INTERVAL_PATH);
     }
 
     @Override
     public boolean isSaveOnChangedEnabled() {
-        return saveOnChangedEnabled;
+        return config.get(SAVE_ON_CHANGED_PATH);
     }
 
     @Override
     public int getDefaultVisibilityDistance() {
-        return defaultVisibilityDistance;
+        return config.get(VISIBILITY_DISTANCE_PATH);
     }
 
     @Override
     public boolean isRegisterCommands() {
-        return registerCommands;
+        return config.get(REGISTER_COMMANDS_PATH);
     }
 
+    @Override
     public String getLogLevel() {
-        return logLevel;
+        return config.get(LOG_LEVEL_PATH);
+    }
+
+    @Override
+    public String getLanguage() {
+        return config.get(LANGUAGE_PATH);
+    }
+
+    @Override
+    public boolean isHologramsForBedrockPlayersEnabled() {
+        return !(boolean) config.get(DISABLE_HOLOGRAMS_FOR_BEDROCK_PLAYERS_PATH);
+    }
+
+    @Override
+    public boolean isHologramsForOldClientsEnabled() {
+        return !(boolean) config.get(DISABLE_HOLOGRAMS_FOR_OLD_CLIENTS);
+    }
+
+    @Override
+    public boolean useLampCommands() {
+        return config.get(USE_LAMP_COMMANDS);
     }
 }
