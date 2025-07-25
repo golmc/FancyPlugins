@@ -16,12 +16,6 @@ runPaper.folia.registerTask()
 
 val supportedVersions =
     listOf(
-        "1.19.4",
-        "1.20",
-        "1.20.1",
-        "1.20.2",
-        "1.20.3",
-        "1.20.4",
         "1.20.5",
         "1.20.6",
         "1.21",
@@ -59,11 +53,6 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
 
     implementation(project(":plugins:fancyholograms:fh-api"))
-    implementation(project(":plugins:fancyholograms:implementation_1_20_4", configuration = "reobf"))
-    implementation(project(":plugins:fancyholograms:implementation_1_20_2", configuration = "reobf"))
-    implementation(project(":plugins:fancyholograms:implementation_1_20_1", configuration = "reobf"))
-    implementation(project(":plugins:fancyholograms:implementation_1_19_4", configuration = "reobf"))
-
 
     rootProject.subprojects
         .filter { it.path.startsWith(":libraries:packets:implementations") }
@@ -88,9 +77,9 @@ dependencies {
 
 paper {
     name = "FancyHolograms"
-    main = "de.oliver.fancyholograms.main.FancyHologramsPlugin"
-    bootstrapper = "de.oliver.fancyholograms.main.FancyHologramsBootstrapper"
-    loader = "de.oliver.fancyholograms.main.FancyHologramsLoader"
+    main = "com.fancyinnovations.fancyholograms.main.FancyHologramsPlugin"
+    bootstrapper = "com.fancyinnovations.fancyholograms.main.FancyHologramsBootstrapper"
+    loader = "com.fancyinnovations.fancyholograms.main.FancyHologramsLoader"
     foliaSupported = true
     version = getFHVersion()
     description = "Simple, lightweight and fast hologram plugin using display entities"
